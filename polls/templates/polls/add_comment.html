@@ -1,0 +1,27 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<h1> Add Comment  </h1>
+<br/>
+
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+   {% if user.is_authenticated %}
+        {{ form.media }}
+   {% endif %}
+        {{ form.as_p }}
+        <br/>
+        <button class="btn btn-secondary"> Add Comment </button>
+    </form>
+</div>
+
+<!-- <script>
+    var name = "{{ user.username }}";
+    document.getElementById("users_id").value
+             = name;
+
+</script> -->
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+<br><br><br>
+<div class="row">
+
+    <div class="col-md-6">
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                 {{ form.as_p }}
+                <br/>
+                <button class="btn"> Suggest choice </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

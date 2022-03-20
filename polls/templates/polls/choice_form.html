@@ -1,0 +1,40 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+{{ pk }}
+<div class="container-fluid">
+<br><br><br>
+<div class="row">
+
+    <div class="col-md-6">
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+           {% if user.is_authenticated %}
+                {{ form.media }}
+                {{ form.as_p }}
+           {% else %}
+                 {{ form.as_p }}
+           {% endif %}
+                <br/>
+                <button class="btn btn-secondary"> Add choice </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script>
+        var name = "Anonymous User";
+        document.getElementById("users_id").value
+                 = name;
+
+    </script>
+
+
+{% endblock %}

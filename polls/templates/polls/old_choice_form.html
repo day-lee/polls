@@ -1,0 +1,54 @@
+{% extends './base.html' %}
+
+    <div class="container">
+        <h1>Suggestion for new choices</h1>
+    </div>
+
+{% block content %}
+
+
+
+{{ choice.votes}}
+{% for obj in object_list %}
+ {{ obj }}
+{% endfor %}
+{{ choice }}
+{{ choice.question_id }}
+
+
+ {{polls_choice.question_id}}
+ {{polls_choice.question_id}}
+ {{choice.id_question}}
+
+ {{ polls_choice.votes }}
+{{ polls_choice.question_id }}
+
+{{ choice.pk}}
+    <h2> Suggest a New Choice " {{ choice }} "</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="editor">
+                <p>{{form}}</p>
+            </div>
+            <div class="submit">
+
+                <input type="submit" value="post">
+            </div>
+        </form>
+
+    <div class="btn_back">
+        <a href="{% url 'polls:index' %}" >Return to question list</a>
+    </div>
+
+
+<script>
+    const id = "{{ choice.question_id }}";
+    document.getElementById("question_id").value
+             = id;
+</script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends './base.html' %}
+
+    <div class="container">
+        <h1>Detail</h1>
+    </div>
+
+{% block content %}
+
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% csrf_token %}
+<fieldset>
+    <legend><h1>{{ question.question_text }}</h1></legend>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for choice in question.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+    {% endfor %}
+</fieldset>
+<input type="submit" value="Vote">
+</form>
+<div class="btn_suggest">
+    <a href="{% url 'polls:new-choice' question.pk %}"> Suggest new choices for question: "{{ question.question_text }}"</a>
+</div>
+
+
+<!--Comment-->
+<hr>
+<h2>Comment</h2>
+<a href="{% url 'polls:add_comment' question.pk %}"> Add Comment </a>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item ">
+          {% if not question.comment.all %}
+              No Comments yet...
+
+          {% else %}
+
+        {% for comment in question.comment.all %}
+            <strong>{{ comment.author }} - {{ comment.created_date }}</strong>
+            <br>
+            {{ comment.body }}
+            <br><br><hr style="width: 100%;">
+        {% endfor %}
+         </li>
+        {% endif %}
+    </ul>
+
+<!--Comment-->
+
+
+
+
+{% endblock content %}
