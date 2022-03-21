@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from rest_framework import viewsets
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
 # from utils.url import restify
 
@@ -104,6 +105,8 @@ class AddCommentView(generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy('polls:detail', kwargs={'pk': self.kwargs['pk']})
+
+
 
 # API
 # ===

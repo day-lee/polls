@@ -29,4 +29,5 @@ urlpatterns = [
     path("_api/", include(router.urls)),
     path("polls/", include("polls.urls")),
     path("admin/", admin.site.urls),
+    path('members/', include('django.contrib.auth.urls')),
 ]
