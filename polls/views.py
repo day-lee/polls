@@ -7,11 +7,11 @@ from rest_framework import viewsets
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 
-# from utils.url import restify
+from utils.url import restify
 
 from .models import Choice, Question, SuggestedChoice, Comment
 from .serializers import QuestionSerializer
-from .forms import SuggestChoiceForm, CommentForm
+from .forms import SuggestChoiceForm, CommentForm, ApprovedChoiceForm
 
 
 class IndexView(generic.ListView):
@@ -20,13 +20,9 @@ class IndexView(generic.ListView):
     allow_empty = False
     queryset = Question.objects.filter(is_closed=False)
 
-    """
-    this is not a perfect solution as problem will arise again when
-    I try to apply pagination and filter once again.
-    """
     # def get_queryset(self):
     #     """Return the last five published questions."""
-    #     response = requests.get(restify("/questions/"))
+    #     response = requests.get(restify("/polls/"))
     #     questions = response.json()
     #     return questions[:5]
 
@@ -56,7 +52,8 @@ def vote(request, question_id):
             },
         )
     else:
-        selected_choice.votes += 1
+        #selected_choice.votes += 1
+        selected_choice.votes = F('votes')+1
         selected_choice.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
@@ -86,6 +83,7 @@ class ChoiceCreateView(generic.CreateView):
 
     def form_valid(self, form):
         form.instance.question_id = self.kwargs['pk']
+        # form.instance.question_id = self.kwargs['question_id']
         return super().form_valid(form)
 
 
@@ -105,6 +103,25 @@ class AddCommentView(generic.CreateView):
 
     def get_success_url(self):
         return reverse_lazy('polls:detail', kwargs={'pk': self.kwargs['pk']})
+
+
+
+# FIX NEEDED
+class ApprovedChoiceUpdateView(generic.UpdateView):
+    model = SuggestedChoice
+    template_name =  "polls/approve_choice.html"
+    form_class = ApprovedChoiceForm
+
+
+    def form_valid(self, form):
+        form.instance.question_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+
+    def get_success_url(self):
+        return reverse_lazy('polls:detail', kwargs={'pk': self.kwargs['pk']})
+
+
 
 
 

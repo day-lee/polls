@@ -9,6 +9,8 @@ urlpatterns = [
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('<int:question_id>/vote/', views.vote, name='vote'),
     path('<int:pk>/suggest-choice/', views.ChoiceCreateView.as_view(), name='new-choice'),
-    path('<int:pk>/comment', views.AddCommentView.as_view(), name='add_comment'),
+    path('<int:pk>/add-comment/', views.AddCommentView.as_view(), name='add_comment'),
+
+    path('<int:pk>/approve-choice/', views.ApprovedChoiceUpdateView.as_view(), name='approve_choice'),
+
 ]
-#question_id

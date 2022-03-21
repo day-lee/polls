@@ -13,3 +13,10 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('author', 'body')
+
+
+class ApprovedChoiceForm(forms.ModelForm):
+    class Meta:
+        model = SuggestedChoice
+        fields = '__all__'
+        # fields = ('is_approved',)
