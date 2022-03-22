@@ -50,6 +50,4 @@ python manage.py runserver
 11. [ ] Implement system that a question creator can approve suggested choices
 12. [x] Implement global search for questions and choices
 
-![image](https://user-images.githubusercontent.com/73591588/159507371-7f3365c9-4732-4cbc-8ea3-9f4ade440c51.png)
-
 
