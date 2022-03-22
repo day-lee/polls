@@ -1,9 +1,4 @@
 {% extends './base.html' %}
-
-    <div class="container">
-        <h1>Suggestion for new choices</h1>
-    </div>
-
 {% block content %}
 
 <!-- login, logout button starts -->
@@ -45,25 +40,5 @@
 {% endif %}
 <!-- list ends -->
 
-<!-- Pagination starts -->
-<!-- <div style="text-align:left; margin: 1rem 0;">
-    {% if page_obj.has_previous %}
-    <a href="{% url 'polls:index' %}?page={{ page_obj.previous_page_number }}"
-        class="btn btn-secondary rounded-pill">
-        {{ page_obj.previous_page_number }}
-    </a>
-    {% endif %}
-    <a href="{% url 'polls:index' %}?page={{ page_obj.number }}"
-        class="btn btn-secondary rounded-pill active">
-        {{ page_obj.number }}
-    </a>
-    {% if page_obj.has_next %}
-    <a href="{% url 'polls:index' %}?page={{ page_obj.next_page_number }}"
-        class="btn btn-secondary rounded-pill">
-        {{ page_obj.next_page_number }}
-    </a>
-    {% endif %}
-</div> -->
-<!-- Pagination ends -->
 
 {% endblock content %}

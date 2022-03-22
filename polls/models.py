@@ -1,14 +1,24 @@
 import datetime
-
 from django.db import models
 from django.utils import timezone
+from django.db.models import Q
 
+
+class QuestionManager(models.Manager):
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            lookup = (Q(question_text__icontains=query))
+            qs = qs.filter(lookup).distinct()
+        return qs
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date      = models.DateTimeField("date published")
     is_closed     = models.BooleanField(default=False)
     closed_at     = models.DateField(default=datetime.date.today, auto_now=False, auto_now_add=False)
+
+    objects       = QuestionManager()
 
     def __str__(self):
         return self.question_text
@@ -17,10 +27,23 @@ class Question(models.Model):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
 
+
+
+class ChoiceManager(models.Manager):
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            lookup =  (Q(choice_text__icontains=query))
+            qs = qs.filter(lookup).distinct()
+        return qs
+
+
 class Choice(models.Model):
     question     = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text  = models.CharField(max_length=200)
     votes        = models.IntegerField(default=0)
+    
+    objects      = ChoiceManager()
 
     def __str__(self):
         return self.choice_text

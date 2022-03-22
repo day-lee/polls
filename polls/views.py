@@ -6,7 +6,7 @@ from django.views import generic
 from rest_framework import viewsets
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from django.db.models import Q
+from itertools import chain
 
 from utils.url import restify
 
@@ -14,18 +14,52 @@ from .models import Choice, Question, SuggestedChoice, Comment
 from .serializers import QuestionSerializer
 from .forms import SuggestChoiceForm, CommentForm, ApprovedChoiceForm
 
+"""original listview"""
+# class IndexView(generic.ListView):
+#     template_name = "polls/index.html"
+#     context_object_name = "latest_question_list"
+#     allow_empty = False
+#     queryset = Question.objects.filter(is_closed=False)
+#
+#     # def get_queryset(self):
+#     #     """Return the last five published questions."""
+#     #     response = requests.get(restify("/polls/"))
+#     #     questions = response.json()
+#     #     return questions[:5]
 
 class IndexView(generic.ListView):
-    template_name = "polls/index.html"
-    context_object_name = "latest_question_list"
-    allow_empty = False
-    queryset = Question.objects.filter(is_closed=False)
+    template_name = "polls/indexview.html"
+    count = 0
 
-    # def get_queryset(self):
-    #     """Return the last five published questions."""
-    #     response = requests.get(restify("/polls/"))
-    #     questions = response.json()
-    #     return questions[:5]
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['count'] = self.count or 0
+        context['query'] = self.request.GET.get('q')
+
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '')
+        object_list = Question.objects.filter(is_closed=False)
+
+        if query:
+            if len(query) > 1:
+                question_results = Question.objects.search(query)
+                choice_results = Choice.objects.search(query)
+
+                queryset_chain = chain(
+                                question_results,
+                                choice_results
+                )
+                qs = sorted(queryset_chain,
+                            key=lambda instance: instance.pk,
+                            reverse=True)
+                self.count = len(qs)
+                return qs
+            else:
+                messages.error(self.request, 'Please type more than two characters')
+        return object_list
+
 
 
 class DetailView(generic.DetailView):
@@ -106,24 +140,20 @@ class AddCommentView(generic.CreateView):
         return reverse_lazy('polls:detail', kwargs={'pk': self.kwargs['pk']})
 
 
-
 # FIX NEEDED
-class ApprovedChoiceUpdateView(generic.UpdateView):
-    model = SuggestedChoice
-    template_name =  "polls/approve_choice.html"
-    form_class = ApprovedChoiceForm
-
-
-    def form_valid(self, form):
-        form.instance.question_id = self.kwargs['pk']
-        return super().form_valid(form)
-
-
-    def get_success_url(self):
-        return reverse_lazy('polls:detail', kwargs={'pk': self.kwargs['pk']})
-
-
-
+# class ApprovedChoiceUpdateView(generic.UpdateView):
+#     model = SuggestedChoice
+#     template_name =  "polls/approve_choice.html"
+#     form_class = ApprovedChoiceForm
+#
+#
+#     def form_valid(self, form):
+#         form.instance.question_id = self.kwargs['pk']
+#         return super().form_valid(form)
+#
+#
+#     def get_success_url(self):
+#         return reverse_lazy('polls:detail', kwargs={'pk': self.kwargs['pk']})
 
 
 # API

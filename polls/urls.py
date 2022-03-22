@@ -11,6 +11,6 @@ urlpatterns = [
     path('<int:pk>/suggest-choice/', views.ChoiceCreateView.as_view(), name='new-choice'),
     path('<int:pk>/add-comment/', views.AddCommentView.as_view(), name='add_comment'),
 
-    path('<int:pk>/approve-choice/', views.ApprovedChoiceUpdateView.as_view(), name='approve_choice'),
+    #path('<int:pk>/approve-choice/', views.ApprovedChoiceUpdateView.as_view(), name='approve_choice'),
 
 ]

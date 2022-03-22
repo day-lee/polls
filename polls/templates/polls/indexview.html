@@ -1,0 +1,103 @@
+{% extends './base.html' %}
+{% load class_name %}
+{% block content %}
+<!-- login, logout button starts -->
+{% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"
+            href="{% url 'logout' %}">Logout</a>
+          </li>
+
+{% else %}
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"
+            href="{% url 'login' %}">Login</a>
+          </li>
+
+{% endif %}
+<br>
+<!-- login, logout button ends -->
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
+<fieldset>
+{% if query %}
+<legend>
+    <h3>{{ count }} results for <b>{{ query }}</b></h3></legend>
+{% else %}
+  <legend>  <h3><b>List of questions</b></h3>
+{% endif %}
+</legend>
+
+
+<!-- list starts -->
+
+<!-- list ends -->
+
+
+<!-- Search starts -->
+<div class='row title-row my-5'>
+
+{% if object_list %}
+  {% for object in object_list %}
+      {% with object|class_name as klass %}
+        {% if klass == 'Question' %}
+             <div class='row'>
+               <div class='col-12'>
+                <li>  <a href={% url 'polls:detail' object.id %}>{{ object.question_text }}</a> </li>
+              </div>
+            </div>
+
+        {% elif klass == 'Choice' %}
+             <div class='row'>
+               <div class='col-12'>
+                <li> <span> {{ object.choice_text }}</span> <a href={% url 'polls:detail' object.question.id %}>link</a> </li>
+                </div>
+              </div>
+
+        {% else %}
+          <li><a href={% url 'polls:detail' question.id %}>{{ question.question_text }}</a></li>
+
+        {% endif %}
+      {% endwith %}
+  {% endfor %}
+
+{% else %}
+  {% if query %}
+  No match
+  {% else %}
+  No polls are available.
+  {% endif %}
+
+{% endif %}
+</fieldset>
+<!-- Search ends -->
+
+<div class='row'>
+    <div class='col-12 col-md-6 mx-auto my-5 py-5'>
+    <form method='GET' class='' action='.'>
+
+        <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
+            <span class="input-group-addon cfe-nav" style='color:#000'>
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+            <input type="text" name="q" data-toggle="popover" data-placement="bottom" data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Press enter to search" value="" style="" data-original-title="" title="" autofocus="autofocus">
+        </div>
+
+    </form>
+
+    </div>
+</div>
+
+
+{% endblock content %}

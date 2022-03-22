@@ -18,6 +18,7 @@
 </fieldset>
 <input type="submit" value="Vote">
 </form>
+<br>
 <div class="btn_suggest">
     <a href="{% url 'polls:new-choice' question.pk %}"> Suggest new choices for question: "{{ question.question_text }}"</a>
 </div>
