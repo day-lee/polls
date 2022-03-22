@@ -8,9 +8,6 @@
 
 <!-- login, logout button starts -->
 {% if user.is_authenticated %}
-        <li class="nav-item">
-<h1> empty ahref </h1>
-          </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page"
             href="{% url 'logout' %}">Logout</a>
