@@ -30,6 +30,7 @@ from .forms import SuggestChoiceForm, CommentForm, ApprovedChoiceForm
 class IndexView(generic.ListView):
     template_name = "polls/indexview.html"
     count = 0
+    allow_empty = False
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
