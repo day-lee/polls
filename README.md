@@ -18,7 +18,8 @@ pip install -r requirements.txt
 #for SECRET_KEY value at settings.py
 
 # (optional) Migrate Tables
--> this step can be skipped as sqlite3 db is already included  in this repo, however, if you want to start from scratch, run this command
+-> this step can be skipped as sqlite3 db is already included  in this repo, however,
+if you want to start from scratch, run this command
 python manage.py makemigrations
 python manage.py migrate
 
@@ -48,3 +49,7 @@ python manage.py runserver
 10. [x] Implement login system
 11. [ ] Implement system that a question creator can approve suggested choices
 12. [x] Implement global search for questions and choices
+
+![image](https://user-images.githubusercontent.com/73591588/159507371-7f3365c9-4732-4cbc-8ea3-9f4ade440c51.png)
+
+
