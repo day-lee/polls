@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 
 class QuestionManager(models.Manager):
@@ -17,6 +18,8 @@ class Question(models.Model):
     pub_date      = models.DateTimeField("date published")
     is_closed     = models.BooleanField(default=False)
     closed_at     = models.DateField(default=datetime.date.today, auto_now=False, auto_now_add=False)
+    likes         = models.ManyToManyField(User, related_name='question_likes')
+    owner         = models.ForeignKey(User, on_delete=models.CASCADE, related_name='question_owner')
 
     objects       = QuestionManager()
 
@@ -42,7 +45,7 @@ class Choice(models.Model):
     question     = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text  = models.CharField(max_length=200)
     votes        = models.IntegerField(default=0)
-    
+
     objects      = ChoiceManager()
 
     def __str__(self):

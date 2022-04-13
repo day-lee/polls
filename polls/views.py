@@ -68,6 +68,13 @@ class DetailView(generic.DetailView):
     template_name = "polls/detail.html"
 
 
+def LikeView(request, pk):
+    question = get_object_or_404(Question, id=request.POST.get('question_id'))
+    #template button "name" is question_id
+    question.likes.add(request.user)
+    return HttpResponseRedirect(reverse('detail', args=[str(pk]))
+
+
 class ResultsView(generic.DetailView):
     model = Question
     template_name = "polls/results.html"

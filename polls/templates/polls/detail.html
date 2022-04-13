@@ -18,14 +18,25 @@
 </fieldset>
 <input type="submit" value="Vote">
 </form>
+
+<!-- like button -->
+<form action="{% url 'polls:like_question' question.pk %}" method="POST">
+  {% csrf_token %}
+<button type="submit", name="question_id", value="{{ question.id}}, ">Like</button>
+
 <br>
+
+
+
 <div class="btn_suggest">
     <a href="{% url 'polls:new-choice' question.pk %}"> Suggest new choices for question: "{{ question.question_text }}"</a>
 </div>
-
+<br>
+<br>
 
 <!--Comment-->
 <hr>
+
 <h2>Comment</h2>
 <a href="{% url 'polls:add_comment' question.pk %}"> Add Comment </a>
     <ul class="list-group list-group-flush">
